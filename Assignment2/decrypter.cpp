@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cmath>
+#include <string.h>
 
 // global variables
 int all_debug = 0;
@@ -40,6 +41,7 @@ void char_to_binary(char c, char *output) {
     for (int i = 7; i >= 0; --i) {
         output[7 - i] = (c & (1 << i)) ? '1' : '0';
     }
+
 }
 
 void get_ten_bit_key(int key, char *key_10){
@@ -533,26 +535,38 @@ int main(int argc, char *argv[]){
     //get the key from the command line
     int key = strtol(argv[1], NULL, 16);
 
-    if(main_debug || all_debug){
-        printf("Key: %d\n", key);
-    }
+    printf("Key: %d\n", key);
+    
 
     // get the 10-bit key
     char key_10[10];
     get_ten_bit_key(key, key_10);
+
+    printf("Key as 10-bit: %s\n", key_10);
 
     // get the k1 and k2 values
     char k1[8];
     char k2[8];
     get_k1_and_k2(key_10, k1, k2);
 
-   // keep reading characters until EOF is DECRYPTED
+    printf("K1: ");
+    for (int i = 0; i < 8; ++i) {
+        printf("%c", k1[i]);
+    }
+    printf("\n");
+    printf("K2: ");
+    for (int i = 0; i < 8; ++i) {
+        printf("%c", k2[i]);
+    }
+    printf("\n");
+
     char c;
     char output[1] = { };
     char cipher_text[8];
-    while (output[0] != EOF) {
+
+    while (1) {
         c = getchar();
-        char_to_binary(c, cipher_text);
+        char_to_binary(c, cipher_text);    
         decrypt(cipher_text, k1, k2, output);
         printf("%c", output[0]);
     }
