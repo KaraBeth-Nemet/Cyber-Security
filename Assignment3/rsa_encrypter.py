@@ -83,8 +83,11 @@ ascii_message = str_to_ascii(message)
 print("Message in ASCII code: ", ascii_message)
 
 
-# encrypt the message
+# decrypt the message
 encrypted_message = [modexp(c, e, n) for c in ascii_message]
+
+#turn the encrypted message into a string of characters
+encrypted_message = ascii_to_str(encrypted_message)
 
 print("\nEncrypted message: ", encrypted_message)
 
